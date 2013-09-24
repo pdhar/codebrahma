@@ -11,8 +11,9 @@ class SessionsController < ApplicationController
   end
   
   def oauth_failure
+    #To handle the event the user authentication fails
     redirect_to root_url
-    #redirect wherever you want.
   end
   
+
 end

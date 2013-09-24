@@ -1,0 +1,157 @@
+var app;
+
+app = angular.module("usermsg", ["ngResource"]).config([
+  "$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {
+    return $routeProvider.when("/users", {
+      templateUrl: '<%= asset_path("message-list.html") %>',
+      controller: UserListCtrl
+    }).when("/users/:userId", {
+      templateUrl: '<%= asset_path("user-detail.html") %>',
+      controller: UserDetailCtrl
+    }).otherwise({
+      redirectTo: "/users"
+    }, function($httpProvider) {
+      return $httpProvider.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+    });
+  }
+]);
+
+app.factory("Entry", [
+  "$resource", function($resource) {
+    return $resource("/users/:id", {
+      id: "@id"
+    }, {
+      update: {
+        method: "PUT"
+      }
+    });
+  }
+]);
+
+app.factory("Msg", [
+  "$resource", function($resource) {
+    return $resource("/feeds/:id", {
+      id: "@id"
+    }, {
+      update: {
+        method: "PUT"
+      }
+    });
+  }
+]);
+
+this.UserListCtrl = [
+  "$scope", "$resource", "$route", "$routeParams", "$location", "Entry", "Msg", function($scope, $resource, $route, $routeParams, $location, Entry, Msg) {
+    this.name = 'parent';
+    Entry = $resource("/users/:id", {
+      id: "@id"
+    }, {
+      update: {
+        method: "PUT"
+      }
+    });
+    $scope.users = Entry.query();
+    $scope.messages = Msg.query();
+    
+    $scope.successUpdateCallback = function(result) {
+      var currentPath, newPath;
+      //console.log("path: " + $location.path());
+      currentPath = $location.path();
+      if (currentPath !== ("/users/" + result.id)) {
+        newPath = "/users/" + result.id;
+      }
+   	  $location.path(newPath);
+   	  //alert title bar and sound
+   	  $.playAlert('You have a new message!!','alert');
+      return;
+    };
+    $scope.messageUpdateCallback = function(result) {
+      currentPath = $location.path();
+	  //console.log("path: " + $location.path() + "result: " + angular.toJson(result));
+	  
+	  if (currentPath !== ("/users/" + result.chatuser_id)) {
+	      newPath = "/users/" + result.chatuser_id;
+	      $location.path(newPath);
+	  }
+	  else{
+	  	  //reload the data
+	  	  $route.reload();
+	  }
+	  
+    };
+    $scope.addCustomClass = function(sUsername) {
+      if (sUsername === "kirandermasurge") {
+        return "is-from-me";
+      } else {
+        return "default-class";
+      }
+    };
+    return $scope.addFayeMsg = function(username, message, email) {
+      var userId;
+      userId = -1;
+      angular.forEach($scope.users, function(user) {
+        if (user.name === username) {
+          return userId = user.id;
+        }
+      });
+      $scope.newMsg = new Msg();
+      $scope.newMsg.message = message;
+      $scope.newMsg.user_from = username;
+      if (userId === -1) {
+        $scope.newUser = new Entry();
+        $scope.newUser.chatmessage = $scope.newMsg;
+        $scope.newUser.name = username;
+        $scope.newUser.email = email;
+        $scope.newUser.$save($scope.successUpdateCallback);
+        $scope.test = $scope.newUser;
+        $scope.users.push($scope.newUser);
+      } else {
+        $scope.newMsg.chatuser_id = userId;
+        $scope.newMsg.$save($scope.messageUpdateCallback);
+      }
+      return "debug: " + username + " " + message + "userId " + userId;
+    };
+  }
+];
+
+this.UserDetailCtrl = [
+  "$scope", "$routeParams", "Entry", "Msg", function($scope, $routeParams, Entry, Msg) {
+  	
+  	//$scope.selectedUser = null;
+    $scope.userId = $routeParams.userId;
+    /*angular.forEach($scope.users, function(user) {
+        if (user.id == $scope.userId) {
+          return $scope.selectedUser = user;
+        }
+    });*/
+      
+    $scope.messages = Entry.get({
+      id: $routeParams.userId
+    });
+	
+	$scope.updateUserDetail = function(UserId) {
+    	
+    	$scope.messages.$update();
+    	
+    };
+    
+    return $scope.addMessage = function(UserId) {
+    	
+      var entry, userTo;
+      $scope.newEntry.user_from = "kirandermasurge";
+      $scope.newEntry.chatuser_id = UserId;
+      entry = Msg.save($scope.newEntry);
+      $scope.messages.chatmessages.push(entry);
+      userTo = "unknown";
+      angular.forEach($scope.users, function(user) {
+        if (user.id.toString() === UserId) {
+          return userTo = user.name;
+        }
+      });
+      message.add("kirandermasurge", $scope.newEntry.message, userTo);
+      return $scope.newEntry = {};
+      
+    };
+    
+  }
+];

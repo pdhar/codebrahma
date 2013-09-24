@@ -1,0 +1,21 @@
+<div class='row' id='messages-inner'>
+	
+		<div ng:repeat="message in messages | orderBy:'-created_at':true" ng-class="addCustomClass(message.user_from)">
+			
+
+			<div class="screen-name">
+				{{message.user_from}}
+			</div>
+			<div class="message">
+				{{message.post}}
+			</div>
+			<div class="timestamp">
+				{{message.created_at | date:'short'}}
+			</div>
+			<!--ul>
+			<li ng:repeat="message in entry.message">{{message.text}}
+			</li>
+			</ul-->
+		</div>
+	
+</div>
