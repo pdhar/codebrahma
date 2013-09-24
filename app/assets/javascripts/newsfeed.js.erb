@@ -53,6 +53,7 @@ this.UserListCtrl = [
     $scope.users = Entry.query();
     $scope.messages = Msg.query();
     
+    
     $scope.successUpdateCallback = function(result) {
       var currentPath, newPath;
       //console.log("path: " + $location.path());
@@ -62,9 +63,19 @@ this.UserListCtrl = [
       }
    	  $location.path(newPath);
    	  //alert title bar and sound
-   	  $.playAlert('You have a new message!!','alert');
+   	  //$.playAlert('You have a new message!!','alert');
       return;
     };
+    
+    return $scope.addMessage = function(UserId) {
+    	
+      alert('hello ' + $scope.newEntry.message + ' ');
+      //$scope.newMsg = new Msg();
+      //$scope.newMsg.message = $scope.newEntry.message;
+      //$scope.newMsg.user_id = $scope.UserId;
+	  //$scope.newMsg.$save();
+    };
+    
     $scope.messageUpdateCallback = function(result) {
       currentPath = $location.path();
 	  //console.log("path: " + $location.path() + "result: " + angular.toJson(result));
@@ -86,6 +97,7 @@ this.UserListCtrl = [
         return "default-class";
       }
     };
+    
     return $scope.addFayeMsg = function(username, message, email) {
       var userId;
       userId = -1;

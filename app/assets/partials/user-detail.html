@@ -1,40 +1,13 @@
-<div class='row well' id='user-details' >
-	
-		<table>
-			<tr>
-				<td>
-					User Information:
-				</td>
-				<td colspan="2">
-					<input placeholder='User Description' type='text' ng-model="messages.description" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					User Email:
-				</td>
-				<td>
-					<input placeholder='User Email' type='text' ng-model="messages.email" />
-				</td>
-				<td>
-					<span>&nbsp;</span>
-					<input class='btn' ng-click='updateUserDetail(userId)' type='submit' value="update user details"/>
-				</td>
-			</tr>
-		</table>
-	
-</div>
-
 <div class='row' id='messages-inner'>
 	
-	<div ng:repeat="message in messages.chatmessages | orderBy:'-created_at':true" ng-class="addCustomClass(message.user_from)">
+	<div ng:repeat="message in messages.feeds | orderBy:'-created_at':true" ng-class="addCustomClass(message.user_from)">
 		
 		
 		<div class="screen-name">
 			{{message.user_from}}
 		</div>
 		<div class="message">
-			{{message.message}}
+			{{message.post}}
 		</div>
 		<div class="timestamp">
 			{{message.created_at | date:'short'}}

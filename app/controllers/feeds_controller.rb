@@ -1,13 +1,15 @@
 class FeedsController < ApplicationController
   # GET /feeds
   # GET /feeds.json
+  
+  respond_to :json
+  
+  
   def index
-    @feeds = Feed.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @feeds }
-    end
+    #@feeds = Feed.all
+    @feeds = Feed.find(:all, :conditions =>{ :user_id => current_user}) 
+    render :json => @feeds.to_json
+    
   end
 
   # GET /feeds/1

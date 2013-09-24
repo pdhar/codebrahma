@@ -1,7 +1,7 @@
 Codebrahma::Application.routes.draw do
   resources :feeds
   resources :users
-  root :to => 'feeds#index'
+  root :to => 'home#index'
   
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
