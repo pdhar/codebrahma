@@ -68,11 +68,12 @@ this.UserListCtrl = [
     };
     
     return $scope.addMessage = function(UserId) {
-    	
-      alert('hello ' + $scope.newEntry.message + ' ' + $scope.test);
       $scope.newMsg = new Msg();
       $scope.newMsg.post = $scope.newEntry.message;
 	  $scope.newMsg.$save();
+	  $scope.messages.push($scope.newMsg);
+      return $scope.newEntry = {};
+      
     };
     
     $scope.messageUpdateCallback = function(result) {

@@ -1,16 +1,15 @@
 <div ng-app='usermsg' class='container' id='main'>
 	
 	<div id="AngularCtrl" ng-controller="UserListCtrl" class='row'>
-		{{ $scope.test = <%=  @current_user.id %> }}
 		<div class='span3'>
 			<div class='well sidebar-nav' id='users'>
 				<ul class='nav nav-list' id='user-list'>
 					<li class='nav-header'>
 						Codebrahma Feed
 					</li>
-					<!--li class='active'>
+					<li class='active'>
 						<a href='#users'> <i class='icon-inbox'></i> My Feed </a>
-					</li-->
+					</li>
 					<li class='nav-header'>
 						Users
 						(
