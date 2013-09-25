@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   before_filter :signed_in_user, only: [:index]
   respond_to :json
   def index
-    @user = User.find(:all, :conditions => ['id not in (?)', current_user]) 
+    #@user = User.find(:all, :conditions => ['id not in (?)', current_user]) 
+    @user = User.all
     render :json => @user.to_json
   end
     
@@ -11,7 +12,12 @@ class UsersController < ApplicationController
     render :json => @user.to_json(:include => :feeds) 
     
   end
-    
+  
+  def update  
+    Rails.logger.debug("Hello Server #{session.inspect} asdasd #{current_user}")
+    render :json => @user.to_json(:include => :feeds)
+  end
+  
   private    
     def signed_in_user
       redirect_to root_url, notice: "Please sign in." unless signed_in?

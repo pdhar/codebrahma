@@ -26,12 +26,7 @@ class FeedsController < ApplicationController
   # GET /feeds/new
   # GET /feeds/new.json
   def new
-    @feed = Feed.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @feed }
-    end
+    
   end
 
   # GET /feeds/1/edit
@@ -42,16 +37,18 @@ class FeedsController < ApplicationController
   # POST /feeds
   # POST /feeds.json
   def create
-    @feed = Feed.new(params[:feed])
-
-    respond_to do |format|
-      if @feed.save
-        format.html { redirect_to @feed, notice: 'Feed was successfully created.' }
-        format.json { render json: @feed, status: :created, location: @feed }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @feed.errors, status: :unprocessable_entity }
-      end
+    
+    Rails.logger.debug("Hello Server #{session.inspect} current user #{current_user.id}")
+    
+    
+    @model = Feed.create(params[:feed].merge(:user_id => current_user.id))
+    if @model.save
+      render :json => @model.to_json
+    else
+      Rails.logger.debug("Hello Server #{@model.errors.full_messages}")
+      render :json => { :errors => @model.errors.full_messages }
+      
+      
     end
   end
 

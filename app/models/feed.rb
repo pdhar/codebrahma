@@ -1,7 +1,7 @@
 class Feed < ActiveRecord::Base
   attr_accessible :post, :user_id
   belongs_to :user,:foreign_key => "user_id"
-  validates :user_id, presence: true
+  validates :user_id, presence: false
   
   def user_from 
     self.user.name

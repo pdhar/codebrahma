@@ -1,31 +1,4 @@
-<div ng-app='usermsg' class='container' id='main'>
-
-	<div id="AngularCtrl" ng-controller="UserListCtrl" class='row'>
-		
-		<div class='span3'>
-			<div class='well sidebar-nav' id='users'>
-				<ul class='nav nav-list' id='user-list'>
-					<li class='nav-header'>
-						Codebrahma Feed
-					</li>
-					<li class='active'>
-						<a href='#users'> <i class='icon-inbox'></i> My Feed </a>
-					</li>
-					<li class='nav-header'>
-						Users
-						(
-						<span id='num-users'>{{users.length}}</span>
-						)
-					</li>
-				</ul>
-				<ng:include src="'<%= asset_path("user-list.html") %>'"></ng:include>
-				
-			</div>
-		</div>
-		<div class='span9' id='messages'>
-			<div ng-view></div>
-		</div>
-	</div>
-
-	
+<div class="center hero-unit">
+  <h1>Welcome to Code Brahma News Feed</h1>
+  
 </div>
