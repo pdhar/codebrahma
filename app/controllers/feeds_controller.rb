@@ -8,7 +8,7 @@ class FeedsController < ApplicationController
   def index
     #@feeds = Feed.all
     #@feeds = Feed.find(:all, :conditions =>{ :user_id => current_user}) 
-    @feeds = Feed.from_users_followed_by(current_user)
+    @feeds = (Feed.from_users_followed_by(current_user) + Feed.from_users_followers(current_user)).uniq
     render :json => @feeds.to_json
     
   end
@@ -17,7 +17,7 @@ class FeedsController < ApplicationController
   # GET /feeds/1.json
   def show
     @feed = Feed.find(params[:id])
-
+    #@feeds = Feed.from_users_followed_by(current_user)
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @feed }

@@ -11,9 +11,16 @@ class Feed < ActiveRecord::Base
     super.merge({'user_from' => user_from})
   end
   
+  def self.all_friend_posts(user)
+    user.relationships
+  end
   def self.from_users_followed_by(user)
     followed_user_ids = user.followed_user_ids
     where("user_id IN (?) OR user_id = ?", followed_user_ids, user)
   end
   
+  def self.from_users_followers(user)
+    followers = user.followers
+    where("user_id IN (?) OR user_id = ?", followers, user)
+  end
 end

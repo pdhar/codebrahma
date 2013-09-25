@@ -34,11 +34,5 @@ class User < ActiveRecord::Base
     relationships.where(followed_id: other_user.id).first.delete
     #find_by(followed_id: other_user.id).destroy!
   end
-  
-  def is_following()
-      #current_user.following?(self)
-      "it works"
-  end
-  
 
 end

@@ -16,4 +16,5 @@
 //= require angular-resource
 //= require angular-bootstrap
 //= require twitter/bootstrap
-//= require_tree .
+//= require faye.chat.js
+//= require newsfeed
