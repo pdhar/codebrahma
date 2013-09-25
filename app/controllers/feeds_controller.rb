@@ -7,7 +7,8 @@ class FeedsController < ApplicationController
   
   def index
     #@feeds = Feed.all
-    @feeds = Feed.find(:all, :conditions =>{ :user_id => current_user}) 
+    #@feeds = Feed.find(:all, :conditions =>{ :user_id => current_user}) 
+    @feeds = Feed.from_users_followed_by(current_user)
     render :json => @feeds.to_json
     
   end

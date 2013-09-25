@@ -15,14 +15,15 @@
 
 </div>
 <div ng-hide="relation.is_followed" class='row' id='input'> 
-	<form ng-submit="addRelationship(userId)" class='well'>
+	<form ng-submit="addRelationship(userId);relation.is_followed = !relation.is_followed;" class='well'>
 		<input class='btn' type='submit' value="follow" />
 	</form>
 </div>
 <div ng-show="relation.is_followed" class='row' id='input'>
-	<form ng-submit="removeRelationship(userId)" class='well'>
+	<form ng-submit="removeRelationship(userId);relation.is_followed = !relation.is_followed;" class='well'>
 		<input class='btn' type='submit' value="unfollow" />
 	</form>
 </div>
 {{ relation.is_followed }}
+
 

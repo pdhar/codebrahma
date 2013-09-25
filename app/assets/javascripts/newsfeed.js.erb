@@ -144,23 +144,21 @@ this.UserDetailCtrl = [
       id: $routeParams.userId
     });
 	
-	return $scope.removeRelationship = function(userId) {
-		alert('deleting');
+	$scope.removeRelationship = function(userId) {
+		//alert('deleting ' + $scope.relation.is_followed);
 		$scope.removeRelation = Relation.delete({
 			id: $routeParams.userId
 		});
-		//$scope.newRelation = new Relation();
-		//$scope.newRelation.followed_id = userId;
-		//$scope.newRelation.$delete({id: userId});
+		return;
 	};
 	
-	return $scope.addRelationship = function(userId) {
-		alert('inserting');
+	$scope.addRelationship = function(userId) {
+		//alert('inserting');
 		$scope.newRelation = new Relation();
 		$scope.newRelation.followed_id = userId;
 		$scope.newRelation.$save();
+		return;
 	};
-	
 	
 	$scope.updateUserDetail = function(UserId) {
     	$scope.messages.$update();
