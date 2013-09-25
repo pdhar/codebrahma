@@ -8,7 +8,10 @@ class UsersController < ApplicationController
     
   def show
     @user = User.find(params[:id])
-    render :json => @user.to_json(:include => :feeds) 
+    #@user.is_following(current_user)
+    #@user.merge({'is_following' => current_user.following?(@user)})
+    #@user["test"] = current_user.following?(@user)
+    render :json => @user.to_json(:include => [:feeds])
   end
   
   def update  

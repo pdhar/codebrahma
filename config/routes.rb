@@ -1,6 +1,8 @@
 Codebrahma::Application.routes.draw do
   resources :feeds
   resources :users
+  resources :relationships, only: [:show,:create, :destroy]
+  
   root :to => 'home#index'
   
   match 'auth/:provider/callback', to: 'sessions#create'

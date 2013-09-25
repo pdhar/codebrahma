@@ -38,7 +38,7 @@ class FeedsController < ApplicationController
   # POST /feeds.json
   def create
     
-    Rails.logger.debug("Hello Server #{session.inspect} current user #{current_user.id}")
+    #Rails.logger.debug("Hello Server #{session.inspect} current user #{current_user.id}")
     
     
     @model = Feed.create(params[:feed].merge(:user_id => current_user.id))

@@ -2,7 +2,6 @@
 	
 	<div ng:repeat="message in messages.feeds | orderBy:'-created_at':true" ng-class="addCustomClass(message.user_from)">
 		
-		
 		<div class="screen-name">
 			{{message.user_from}}
 		</div>
@@ -12,15 +11,18 @@
 		<div class="timestamp">
 			{{message.created_at | date:'short'}}
 		</div>
-		<!--ul>
-		<li ng:repeat="message in entry.message">{{message.text}}
-		</li>
-		</ul-->
 	</div>
 
 </div>
-<div class='row' id='input'>
-	Follow Button??
+<div ng-hide="relation.is_followed" class='row' id='input'> 
+	<form ng-submit="addRelationship(userId)" class='well'>
+		<input class='btn' type='submit' value="follow" />
+	</form>
 </div>
-
+<div ng-show="relation.is_followed" class='row' id='input'>
+	<form ng-submit="removeRelationship(userId)" class='well'>
+		<input class='btn' type='submit' value="unfollow" />
+	</form>
+</div>
+{{ relation.is_followed }}
 

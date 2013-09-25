@@ -40,16 +40,21 @@ app.factory("Msg", [
   }
 ]);
 
-this.UserListCtrl = [
-  "$scope", "$resource", "$route", "$routeParams", "$location", "Entry", "Msg", function($scope, $resource, $route, $routeParams, $location, Entry, Msg) {
-    this.name = 'parent';
-    Entry = $resource("/users/:id", {
+app.factory("Relation", [
+  "$resource", function($resource) {
+    return $resource("/relationships/:id", {
       id: "@id"
     }, {
       update: {
         method: "PUT"
       }
     });
+  }
+]);
+
+this.UserListCtrl = [
+  "$scope", "$resource", "$route", "$routeParams", "$location", "Entry", "Msg", function($scope, $resource, $route, $routeParams, $location, Entry, Msg) {
+    
     $scope.users = Entry.query();
     $scope.messages = Msg.query();
     
@@ -127,24 +132,38 @@ this.UserListCtrl = [
 ];
 
 this.UserDetailCtrl = [
-  "$scope", "$routeParams", "Entry", "Msg", function($scope, $routeParams, Entry, Msg) {
+  "$scope", "$routeParams", "Entry", "Msg", "Relation", function($scope, $routeParams, Entry, Msg, Relation) {
   	
-  	//$scope.selectedUser = null;
     $scope.userId = $routeParams.userId;
-    /*angular.forEach($scope.users, function(user) {
-        if (user.id == $scope.userId) {
-          return $scope.selectedUser = user;
-        }
-    });*/
       
     $scope.messages = Entry.get({
       id: $routeParams.userId
     });
 	
+	$scope.relation = Relation.get({
+      id: $routeParams.userId
+    });
+	
+	return $scope.removeRelationship = function(userId) {
+		alert('deleting');
+		$scope.removeRelation = Relation.delete({
+			id: $routeParams.userId
+		});
+		//$scope.newRelation = new Relation();
+		//$scope.newRelation.followed_id = userId;
+		//$scope.newRelation.$delete({id: userId});
+	};
+	
+	return $scope.addRelationship = function(userId) {
+		alert('inserting');
+		$scope.newRelation = new Relation();
+		$scope.newRelation.followed_id = userId;
+		$scope.newRelation.$save();
+	};
+	
+	
 	$scope.updateUserDetail = function(UserId) {
-    	
     	$scope.messages.$update();
-    	
     };
     
     return $scope.addMessage = function(UserId) {
